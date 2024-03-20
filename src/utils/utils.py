@@ -1,7 +1,16 @@
 import torch
 
+import re
+
+import string
+
+import nltk
+from nltk.corpus import stopwords
+from pyvi import ViTokenizer
+
 import matplotlib.pyplot as plt
 
+nltk.download('stopwords')
 
 def read_word2vec_file(filename):
     """
@@ -98,4 +107,19 @@ def train_model(model, train_loader, val_loader, loss_fn, optimizer, num_epochs,
         }
         return results
 
+def remove_stopwords_vietnamese(text):
+    tokens = ViTokenizer.tokenize(text)
+    with open('../data/vietnamese_stopwords.txt', 'r', encoding='utf-8') as f:
+        stopwords = set([line.strip() for line in f.readlines()])
+    filtered_tokens = [token for token in tokens.split() if token.lower() not in stopwords]
+    filtered_text = ' '.join(filtered_tokens)
+    return filtered_text
 
+def remove_footnotes(text):
+    cleaned_text = re.sub(r'\[\d+\]', '', text)
+    return cleaned_text
+
+def remove_punctuation(text):
+    punctuation_chars = string.punctuation
+    cleaned_text = ''.join([char for char in text if char not in punctuation_chars])
+    return cleaned_text
