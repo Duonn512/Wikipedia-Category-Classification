@@ -10,12 +10,10 @@
 | | Random Forest | 79.00% | 0.7681 |
 | | Gradient Boosting | 78.00% | 0.7556 |
 | | KNN | 85.50% | 0.8435 |
-|---|---|---|---|---|
 | RNN based | DeepRNN | 61.50% | 0.5309 |
 | | BiGRU | 87.25% | 0.8635 |
 | | BiLSTM | 85.75% | 0.8476 |
 | | BiLSTM+Attention | 85.25% | 0.8412 |
-|---|---|---|---|---|
 | CNN based | TextCNN | 85.00% | 0.8364 |
 | | CharCNN | 66.25% | 0.5713 |
 | Transformer | Pho-BERT | 86.00% | 0.8505 |
