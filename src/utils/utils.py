@@ -1,32 +1,10 @@
 import torch
 
-import re
-
-import string
-
-from underthesea import word_tokenize
-
 import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+import numpy as np
+import seaborn as sns
 
-def read_word2vec_file(filename):
-    """
-    Args:
-    filename: The path to the word2vec file
-
-    Returns:
-    word2vec_dict: A dictionary where the keys are words and the values are the word vectors
-    """
-    word2vec_dict = {}
-    with open(filename, 'r', encoding='utf-8') as file:
-        for line in file:
-            tokens = line.strip().split()
-            word = tokens[0]
-            try:
-                vec = list(map(float, tokens[1:]))
-                word2vec_dict[word] = vec
-            except:
-                continue
-    return word2vec_dict
 
 def train_model(model, train_loader, val_loader, loss_fn, optimizer, num_epochs, device, return_results=False):
     """
@@ -103,23 +81,47 @@ def train_model(model, train_loader, val_loader, loss_fn, optimizer, num_epochs,
         }
         return results
 
-def remove_stopwords_vietnamese(text):
-    tokens = word_tokenize(text)
-    with open('../data/vietnamese_stopwords.txt', 'r', encoding='utf-8') as f:
-        stopwords = set([line.strip() for line in f.readlines()])
-    filtered_tokens = [token for token in tokens if token.lower() not in stopwords]
-    filtered_text = ' '.join(filtered_tokens)
-    return filtered_text
+def evaluate_model(model, test_loader, device, plot_confusion_matrix=True):
+    model.eval()
+    
+    all_labels = []
+    all_predictions = []
+    
+    with torch.no_grad():
+        for description, label in test_loader:
+            description = description.to(device)
+            label = label.to(device)
+            outputs = model(description)
+            _, predicted = torch.max(outputs, 1)
+            
+            all_labels.extend(label.to('cpu').numpy())
+            all_predictions.extend(predicted.to('cpu').numpy())
+    
+    # Convert to numpy arrays
+    all_labels = np.array(all_labels)
+    all_predictions = np.array(all_predictions)
+    
+    # Calculate metrics
+    accuracy = accuracy_score(all_labels, all_predictions)
+    micro_f1 = f1_score(all_labels, all_predictions, average='micro')
+    macro_f1 = f1_score(all_labels, all_predictions, average='macro')
+    
+    metrics = {
+        'accuracy': accuracy,
+        'micro_f1': micro_f1,
+        'macro_f1': macro_f1
+    }
+    
+    if plot_confusion_matrix:
+        cm = confusion_matrix(all_labels, all_predictions)        
+        plt.figure(figsize=(10, 10))
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+        plt.title('Confusion matrix')
+        plt.xlabel('Predicted labels')
+        plt.ylabel('True  labels')
+        plt.xticks(np.arange(4) + 0.5, ["Khoa học tự nhiên","Khoa học xã hội","Kỹ thuật","Văn hóa"], rotation=30)
+        plt.yticks(np.arange(4) + 0.5, ["Khoa học tự nhiên","Khoa học xã hội","Kỹ thuật","Văn hóa"], rotation=30)
+        plt.show()
 
-def remove_footnotes(text):
-    cleaned_text = re.sub(r'\[\d+\]', '', text)
-    return cleaned_text
-
-def remove_punctuation(text):
-    punctuation_chars = string.punctuation
-    cleaned_text = ''.join([char for char in text if char not in punctuation_chars])
-    return cleaned_text
-
-def tokenize(text):
-    list_word = word_tokenize(text)
-    return list_word
+    
+    return metrics
