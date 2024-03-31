@@ -5,6 +5,15 @@ import string
 from underthesea import word_tokenize
 
 def remove_stopwords_vietnamese(text):
+    """
+    Remove stopwords from the given Vietnamese text.
+
+    Args:
+        text (str): The input text to remove stopwords from.
+
+    Returns:
+        str: The filtered text with stopwords removed.
+    """
     tokens = word_tokenize(text)
     with open('../data/vietnamese_stopwords.txt', 'r', encoding='utf-8') as f:
         stopwords = set([line.strip() for line in f.readlines()])
@@ -13,17 +22,52 @@ def remove_stopwords_vietnamese(text):
     return filtered_text
 
 def remove_footnotes(text):
-    cleaned_text = re.sub(r'\[\d+\]', '', text)
-    return cleaned_text
+    """
+    Removes footnotes from the given text.
+
+    Parameters:
+    text (str): The text from which footnotes need to be removed.
+
+    Returns:
+    str: The text with footnotes removed.
+    """
+    return re.sub(r'\[\d+\]', '', text)
 
 def remove_punctuation(text):
-    punctuation_chars = string.punctuation
-    cleaned_text = ''.join([char for char in text if char not in punctuation_chars])
-    return cleaned_text
+    """
+    Removes punctuation characters from the given text.
+
+    Args:
+        text (str): The input text.
+
+    Returns:
+        str: The cleaned text with punctuation characters removed.
+    """
+    return text.translate(str.maketrans('', '', string.punctuation))
+
+def lowercase_text(text):
+    """
+    Converts the given text to lowercase.
+
+    Args:
+        text (str): The input text.
+
+    Returns:
+        str: The text converted to lowercase.
+    """
+    return text.lower()
 
 def tokenize(text):
-    list_word = word_tokenize(text)
-    return list_word
+    """
+    Tokenizes the given text into words.
+
+    Args:
+        text (str): The input text.
+
+    Returns:
+        list: The list of words from the input text.
+    """
+    return word_tokenize(text)
 
 def custom_transform(x, w2v_model, TX=80):
     """
