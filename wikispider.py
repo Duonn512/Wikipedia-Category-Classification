@@ -1,36 +1,36 @@
 import scrapy
-import csv
 
 class WikispiderSpider(scrapy.Spider):
     name = "wikispider"
     allowed_domains = ["vi.wikipedia.org"]
-    start_urls = ['https://vi.wikipedia.org']
-
-    def start_requests(self):
-        csv_file_path = r'C:\Users\Admin\test_crawl\wikipedia_crawl\wikipedia_crawl\spiders\Label_3.csv'
-        with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
-            reader = csv.reader(csvfile)
-            for row in reader:
-                url = row[0].strip()
-                yield scrapy.Request(url=url, callback=self.parse)
+    start_urls = ['https://vi.wikipedia.org/wiki/Đặc_biệt:Ngẫu_nhiên']
+    collected_count = 0
+    number_wiki_collected = 1000
 
     def parse(self, response):
-        title = response.css('#firstHeading ::text').get()
-        content_parts = []
-        r1 = response.xpath('//*[@id="mw-content-text"]/div[1]/p[1]//text() ').getall()
-        if r1 != [' \n'] and r1 != ['\n'] and r1 != ['\n\n'] :
-            for node in r1 :
-                if node.strip():
-                    content_parts.append(node.strip())
+        if self.collected_count < self.number_wiki_collected:
+            # Take title
+            title = response.css('#firstHeading ::text').get()
 
-            content = ' '.join(content_parts)    
-        else :
-            for node in response.xpath('//*[@id="mw-content-text"]/div[1]/p[2]//text() ').getall() :
-                if node.strip():
-                    content_parts.append(node.strip())
+            # Take abstract content (first paragraph)
+            content_parts = []
+            r1 = response.xpath('//*[@id="mw-content-text"]/div[1]/p[1]//text()')
+            if r1 not in [[' \n'], ['\n'], ['\n\n']]:
+                for node in r1:
+                    if node.strip():
+                        content_parts.append(node.strip())
+            else:
+                r2 = response.xpath('//*[@id="mw-content-text"]/div[1]/p[2]//text()')
+                for node in r2:
+                    if node.strip():
+                        content_parts.append(node.strip())
+
             content = ' '.join(content_parts)
+            self.collected_count += 1
 
-        yield {
-            'title': title,
-            'content' : content,
-        }
+            # Take next content
+            next_content = response.css('#n-randompage a::attr(href)').get()
+            if next_content:
+                next_content_url = 'https://vi.wikipedia.org' + next_content
+                yield response.follow(next_content_url, callback=self.parse, dont_filter=True)
+                
