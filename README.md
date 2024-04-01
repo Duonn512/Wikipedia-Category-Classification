@@ -1,6 +1,6 @@
 # Wikipedia-Category-Classification
 ## Demo link
-[WWiki-Category-Classification Demo](https://l.facebook.com/l.php?u=https%3A%2F%2Fhuggingface.co%2Fspaces%2Fkhoavpt%2Fdemo-app%3Ffbclid%3DIwAR1xXSg5BjWQUSrl8TP951pwHg01tmtFU3w9M7moGRnSvkPMMu1LU91ofng_aem_AUog7kSyu_A7-BJZHqig88VCbn1cb-KcpQUz61RPI_y4QjMdwfipjollGj89b9W0dRG44T6AUMUYNHifFEvsGHwP&h=AT1NHmh7moa2iRKSXVMyvvuNd8NTGQ5xsavY-cMjLzrRaykFiAWair2OxIsLFvRO2gFGNbVOEhrz_aiT_w8ZrohuSCa_9m8KmhCiDBZUCZyDgT0klsVvcJtjyKvGg6Dt4RwhssrnWlOEDk1qXG7mlw)
+[Wiki-Category-Classification Demo](https://huggingface.co/spaces/khoavpt/demo-app?fbclid=IwAR1xXSg5BjWQUSrl8TP951pwHg01tmtFU3w9M7moGRnSvkPMMu1LU91ofng_aem_AUog7kSyu_A7-BJZHqig88VCbn1cb-KcpQUz61RPI_y4QjMdwfipjollGj89b9W0dRG44T6AUMUYNHifFEvsGHwP)
 
 ## Experiment results
 ### Table 1: Performance of Different Topic Classification Models
