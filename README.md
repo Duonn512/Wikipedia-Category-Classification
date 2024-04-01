@@ -1,6 +1,11 @@
 # Wikipedia-Category-Classification
-## Demo link
-[Wiki-Category-Classification Demo](https://huggingface.co/spaces/khoavpt/demo-app?fbclid=IwAR1xXSg5BjWQUSrl8TP951pwHg01tmtFU3w9M7moGRnSvkPMMu1LU91ofng_aem_AUog7kSyu_A7-BJZHqig88VCbn1cb-KcpQUz61RPI_y4QjMdwfipjollGj89b9W0dRG44T6AUMUYNHifFEvsGHwP)
+This application classifies the topic of Vietnamese Wikipedia articles. The topics are classified into four categories: "Khoa học tự nhiên" (Natural Science), "Khoa học xã hội" (Social Science), "Kỹ thuật" (Engineering), and "Văn hóa" (Culture).
+
+## Installation
+1. Clone this repository.
+2. Install the required packages by running `pip install -r requirements.txt`.
+3. Download the pretrained model from https://www.kaggle.com/datasets/khoahongg/bi-gru and place it in the folder `saved_models`.
+4. Run the application using the command `python app.py`.
 
 ## Experiment results
 ### Table 1: Performance of Different Topic Classification Models
@@ -39,9 +44,11 @@
 | Pho-BERT | 95.80% | 91.43% | 79.31% | 74.16% |
 | XLM-RoBERTa-VN | 98.26% | 93.14% | 79.55% | 76.14% |
 
-## Demo screenshots
-### Text input
+## Demo 
+### Link: [Wiki-Category-Classification Demo](https://huggingface.co/spaces/khoavpt/demo-app?fbclid=IwAR1xXSg5BjWQUSrl8TP951pwHg01tmtFU3w9M7moGRnSvkPMMu1LU91ofng_aem_AUog7kSyu_A7-BJZHqig88VCbn1cb-KcpQUz61RPI_y4QjMdwfipjollGj89b9W0dRG44T6AUMUYNHifFEvsGHwP)
+### Screenshots
+- Text input:
 ![](img/demo_screenshot2.png)
 
-### Link input
+- Link input:
 ![](img/demo_screenshot1.png)

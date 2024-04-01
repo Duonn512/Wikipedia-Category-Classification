@@ -53,6 +53,7 @@ def crawl(url):
     return {'title': title, 'content': content}
 
 def get_topic(input_data):
+    model.eval()
     if input_data.startswith('http://') or input_data.startswith('https://'):
         text = crawl(input_data)['content']
     else:
