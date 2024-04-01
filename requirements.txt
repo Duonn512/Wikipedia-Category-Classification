@@ -1,0 +1,6 @@
+torch
+lxml
+requests
+numpy
+gensim
+underthesea
